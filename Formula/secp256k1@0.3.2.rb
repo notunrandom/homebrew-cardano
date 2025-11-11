@@ -5,6 +5,12 @@ class Secp256k1AT032 < Formula
   sha256 "ef2e1061951b8cf94a7597b4e60fd7810613e327e25305e8d73dfdff67d12190"
   license "MIT"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/secp256k1@0.3.2-0.3.2"
+    sha256 cellar: :any,                 arm64_tahoe:  "49565524006003e2306f7a6576f73c6c60413cce06ec2b930de65d82b8417840"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "ed719636c378bf833e39279e91d96f6caa2103ff0695f11c78bdcdc942365a0b"
+  end
+
   keg_only :versioned_formula
 
   depends_on "autoconf" => [:build]
