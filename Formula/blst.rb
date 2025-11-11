@@ -5,6 +5,12 @@ class Blst < Formula
   sha256 "2d17ed3087bd37d2aff6fd37c83807831fcc62bcbbe71bb65d32d7ded5749faa"
   license "Apache-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/blst-0.3.14"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:  "ffff8444f1bd4e97f69d2d6703178a109d1216b6299d26ed90294f09eb5c0a53"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "b15b53c066399ffeb39d6604eef9a535bce9741dee577f52b9b91facb290553b"
+  end
+
   def install
     system "./build.sh"
     File.write("libblst.pc", <<~PCFILE
