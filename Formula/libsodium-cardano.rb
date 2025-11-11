@@ -6,6 +6,12 @@ class LibsodiumCardano < Formula
   sha256 "e4f29ae3c16037e484bb69e3fa22a5565c42adf497f8f88e61ff8d9486ab863e"
   license "ISC"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/libsodium-cardano-1.0.0"
+    sha256 cellar: :any,                 arm64_tahoe:  "bc43924ba437da41ba0deb6d12065abfab7fae64eeb6766543571cb522997b71"
+    sha256 cellar: :any_skip_relocation, x86_64_linux: "20256af89e4a220c223547e80531e536371edd61544d5ea6d1db10d94e2b6a20"
+  end
+
   depends_on "autoconf" => :build
   depends_on "autogen" => :build
   depends_on "automake" => :build
