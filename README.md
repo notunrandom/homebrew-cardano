@@ -2,6 +2,9 @@
 
 This is a Homebrew tap to install the Cardano node (more tools coming soon).
 
+[![Demo](https://img.youtube.com/vi/Yd2lQGLwqgI/0.jpg)](https://www.youtube.com/watch?v=Yd2lQGLwqgI)
+
+
 ## Prerequisites
 
 You only need to have previously installed [Homebrew](https://brew.sh/), which supports MacOS and Linux.
