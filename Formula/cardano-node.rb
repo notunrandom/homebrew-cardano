@@ -16,7 +16,6 @@ class CardanoNode < Formula
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build
   depends_on "gmp"
-  depends_on "llvm"
   depends_on "lmdb"
   depends_on "notunrandom/cardano/blst"
   depends_on "notunrandom/cardano/libsodium-cardano"
