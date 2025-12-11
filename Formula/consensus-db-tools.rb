@@ -12,6 +12,7 @@ class ConsensusDbTools < Formula
   depends_on "notunrandom/cardano/blst"
   depends_on "notunrandom/cardano/libsodium-cardano"
   depends_on "notunrandom/cardano/secp256k1@0.3.2"
+  depends_on "zlib"
 
   def install
     ENV["GHCUP_INSTALL_BASE_PREFIX"] = buildpath
