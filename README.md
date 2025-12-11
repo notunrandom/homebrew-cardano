@@ -1,9 +1,8 @@
 # Cardano Homebrew tap
 
-This is a Homebrew tap to install the Cardano node (more tools coming soon).
+This is a Homebrew tap to install the Cardano node, and some associated tools.
 
 [![Demo](https://img.youtube.com/vi/Yd2lQGLwqgI/0.jpg)](https://www.youtube.com/watch?v=Yd2lQGLwqgI)
-
 
 ## Prerequisites
 
@@ -19,7 +18,20 @@ To install the Cardano node (10.6.1) and CLI:
 brew install notunrandom/cardano/cardano-node
 ```
 
-Alternatively, to install only the C libraries upon which the Haskell code of the node depends (e.g. because you are developing for Cardano):
+To install these tools to analyse, manipulate or generate chain and ledger DB's:
+
+* `db-analyser`
+* `snapshot-converter`
+* `db-synthesizer`
+* `db-truncater`
+* `db-immutaliser`
+* `immdb-server`
+
+```bash
+brew install notunrandom/cardano/consensus-db-tools
+```
+
+To install only the C libraries upon which the Haskell code of the node depends (e.g. because you are developing for Cardano):
 
 ```bash
 brew tap notunrandom/cardano
