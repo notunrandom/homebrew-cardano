@@ -8,7 +8,7 @@ This is a Homebrew tap to install the Cardano node, and some associated tools.
 
 You only need to have previously installed [Homebrew](https://brew.sh/), which supports MacOS and Linux.
 
-*Precompiled binaries are provided for MacOS Tahoe on Silicon (ARM), and Ubuntu 22.04 on x86. On other platforms installation will require about 20 minutes because it entails compiling from source.*
+*Precompiled binaries are provided for MacOS Tahoe and Sequoia on Silicon (ARM), Ubuntu 22.04 on x86 and Ubuntu 24.04 on ARM. On some other platforms installation may require about 20 minutes if it entails compiling from source.*
 
 ## Installation
 
@@ -18,7 +18,7 @@ To install the Cardano node (10.6.1) and CLI:
 brew install notunrandom/cardano/cardano-node
 ```
 
-To install these tools to analyse, manipulate or generate chain and ledger DB's:
+To install these tools to analyse, manipulate or generate chain and ledger DB's (for a 10.6.1 node):
 
 * `db-analyser`
 * `snapshot-converter`
