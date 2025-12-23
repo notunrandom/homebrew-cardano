@@ -58,9 +58,9 @@ To actually try the node and CLI:
 - start the node
 
 ```bash
-mkdir -p testnet/db && cd testnet
-curl -O -J "https://book.play.dev.cardano.org/environments/preprod/{config,db-sync-config,submit-api-config,topology,byron-genesis,shelley-genesis,alonzo-genesis,conway-genesis,peer-snapshot}.json"
-cardano-node run --topology topology.json --config config.json --database-path db --socket-path node.socket --port 3001
+mkdir -p preprod/{db,conf} && cd preprod
+curl --output-dir conf --remote-name-all --variable prefix=https://book.play.dev.cardano.org/environments-pre/preprod --expand-url "{{prefix}}/{config,tracer-config,db-sync-config,submit-api-config,topology,byron-genesis,shelley-genesis,alonzo-genesis,conway-genesis,peer-snapshot}.json" --expand-url "{{prefix}}/guardrails-script.plutus"
+cardano-node run --topology conf/topology.json --config conf/config.json --database-path db --socket-path node.socket --port 3001
 
 ```
 
@@ -69,7 +69,7 @@ You should see the output showing that the node is syncing.
 In a separate terminal, use the CLI to query the tip of your node (you may need to `brew install watch` before running the following command):
 
 ```bash
-CARDANO_NODE_SOCKET_PATH=testnet/node.socket watch cardano-cli query tip --testnet-magic 1
+CARDANO_NODE_SOCKET_PATH=preprod/node.socket watch cardano-cli query tip --testnet-magic 1
 ```
 
 ## See also
