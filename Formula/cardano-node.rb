@@ -1,18 +1,9 @@
 class CardanoNode < Formula
   desc "Core component needed to participate in a Cardano decentralised blockchain"
   homepage "https://github.com/IntersectMBO/cardano-node"
-  url "https://github.com/IntersectMBO/cardano-node/archive/refs/tags/10.6.1.tar.gz"
-  sha256 "4c0dec126688deff14f7942a62e2224ddb12237d5150d210abff068e44bce61a"
+  url "https://github.com/IntersectMBO/cardano-node/archive/refs/tags/10.6.2.tar.gz"
+  sha256 "a68e36f5d06ffb999c1e74135f3e97185cc17077b4e055bdaab20a7af56f144e"
   license "Apache-2.0"
-
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node-10.6.1"
-    rebuild 1
-    sha256 cellar: :any,                 arm64_tahoe:   "29ee89e5f002e1e7a663fd71fca52a8e41abc428e520a5f0c0c0a5cb1b443273"
-    sha256 cellar: :any,                 arm64_sequoia: "bcfef1c219a44a0d66d71d01b532c7b903f64ef2e48a3561482363387a15ae5c"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "ce9fc896b90c4165737385b4b8933f772b754a09fe753af68c0f5df0712a6fba"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "1e6648aa48b5fc1a5b1d1ae5d663aee6e55c02cbe1e4349f04641db0c3a336c2"
-  end
 
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build

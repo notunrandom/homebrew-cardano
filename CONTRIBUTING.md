@@ -20,46 +20,102 @@ dependencies, are not currently ["acceptable formulae"][acceptable] for
 N.B. The repository must have the `homebrew-` prefix in its name. But in `brew`
 commands, one usually refers to this tap without the `homebrew-` prefix.
 
-## Adding formulae
+## Pre-requisites
 
-To add a formula, start by adding the tap to your local Homebrew installation
-(**N.B.** this clones the repository using the HTTP URL, see below for the
-alternative):
+- [Homebrew][brew] itself must be installed.
+- You must have a GitHub account, SSH access configured, and write permissions
+  on this repository.
 
-```bash
-brew tap notunrandom/cardano
-```
+## Preparations
 
-This actually clones the [notunrandom/homebrew-cardano][tap] repository into
-your local Homebrew installation. The path to the local git repository will be
-provided in the output of the previous commande, e.g.:
-
-```bash
-==> Tapping notunrandom/cardano
-Cloning into '/opt/homebrew/Library/Taps/notunrandom/homebrew-cardano'...
-remote: Enumerating objects: 57, done.
-remote: Counting objects: 100% (57/57), done.
-remote: Compressing objects: 100% (44/44), done.
-remote: Total 57 (delta 15), reused 43 (delta 9), pack-reused 0 (from 0)
-Receiving objects: 100% (57/57), 17.00 KiB | 8.50 MiB/s, done.
-Resolving deltas: 100% (15/15), done.
-Tapped 4 formulae (20 files, 48.1KB).
-```
-
-It is also possible to specify the URL of the tap, which is useful for example
-if one wishes to make changes to the repository using SSH and a key-pair rather
-than HTTP authentication:
+To work on this tap it is first necessary to clone it into your local Homebrew
+installation:
 
 ```bash
 brew tap notunrandom/cardano git@github.com:notunrandom/homebrew-cardano.git
 ```
 
-Now you can `cd` to the directory and use Git as usual. It is also possible to
-use `brew` to find the correct directory:
+Then change into the directory where the clone is located:
 
 ```
 cd $(brew --repo notunrandom/cardano)
 ```
+
+## Modifying/updating existing formulae
+
+It is imperative:
+- to submit changes to formulae as a PR
+- to only include changes to a single formula in any given PR
+
+Therefore, before making any changes, checkout a new branch named after the formula that will be modified, e.g.:
+
+```bash
+git checkout -b cardano-node
+```
+
+After making changes with your favourite editor (in this example, to
+./Formula/cardano-node.rb), you can commit to the branch to save your progress.
+
+When you are ready to try it out, you must first test your formula locally
+using these three steps (continuing to use cardano-node as the example formula being modified):
+
+```
+HOMEBREW_NO_INSTALL_FROM_API=1 brew audit --new cardano-node
+```
+
+This will analyse your formula code, it's like a linter. Fix all errors before proceeding.
+
+```
+HOMEBREW_NO_INSTALL_FROM_API=1 brew install --build-from-source --verbose --debug cardano-node
+```
+
+This will attempt to use your Formula to build, from source, a locally
+installed version of the package. Again, fix all errors before proceeding. N.B.
+Once the installation succeeded at least once, if you want to make changes, you
+will need to replace `install` by `reinstall` in the above command.
+
+```
+HOMEBREW_NO_INSTALL_FROM_API=1 brew test cardano-node
+```
+
+This will test the resulting installation (using the test you should have
+provided in the formula).
+
+Once you are satisfied that your formula is working, you can commit your new
+formula. Then push to the upstream branch:
+
+```bash
+git push -u origin cardano-node
+```
+
+(N.B. `cardano-node` above is the name of the branch on which the changes were
+made).
+
+
+Important:
+
+- you must work in a branch, and one formula at a time.
+- you must push your branch to the upstream repo so that a pull request can be
+  created. Do not push directly to main.
+- you must use a pull request to submit your new or modified formula (only this
+  way will the GitHub actions be usable)
+- your pull request must only concern a single formula - use a separate branch
+  and separate pull request for each formula you add or modify.
+
+For the maintainers of the tap, the last stages are done in GitHub:
+
+1. Create a pull request from the pushed branch.
+2. Wait for the GitHub actions triggered by the pull request to complete.
+3. If they are all green, add the "pr-pull" label to the PR - this will
+   automatically merge and delete the branch, create the "bottles" and put them
+   in "Releases", add the links to the "bottles" in the formula and close the
+   PR.
+
+## Adding formulae
+
+For new formulae, it is also necessary to create a branch (named after the new formula).
+
+Then it is of course possible to copy one of the existing formulae.
 
 But `brew` also provides facilities, for example to create an initial version
 of your new formula.
@@ -103,14 +159,6 @@ This will open an editor session of the generated Formula. You can keep the
 session open to continue editing the Formula, or close it and open the file
 later or with another editor.
 
-Make sure you are working in a branch, and one formula at a time. So, before
-continuing work on the `amaru` formula:
-
-```
-pushd $(brew --repo notunrandom/cardano)
-git checkout -b amaru
-```
-
 From now on, as you work on the formula, you can commit (locally) to save your
 progress.
 
@@ -119,55 +167,10 @@ from existing formula in the [notunrandom/cardano][tap], read the [Formula
 Cookbook][formula] and/or get inspiration from exiting formulae in
 [Homebrew/Core][core].
 
-When you are ready to try it out, you must first test your formula locally
-using these three steps (I will use the example of the Amaru formula
-initialised above):
+The audit/build/test/commit/push cycle is the same as described above when
+modifying an existing formula.
 
-```
-HOMEBREW_NO_INSTALL_FROM_API=1 brew audit --new amaru
-```
-
-This will analyse your formula code, it's like a linter. Fix all errors before proceeding.
-
-```
-HOMEBREW_NO_INSTALL_FROM_API=1 brew install --build-from-source --verbose --debug amaru
-```
-
-This will attempt to use your Formula to build, from source, a locally
-installed version of the package. Again, fix all errors before proceeding. N.B.
-Once the installation succeeded at least once, if you want to make changes, you
-will need to replace `install` by `reinstall` in the above command.
-
-```
-HOMEBREW_NO_INSTALL_FROM_API=1 brew test amaru
-```
-
-This will test the resulting installation (using the test you should have
-provided in the formula).
-
-Once you are satisfied that your formula is working, you can commit your new
-formula.
-
-Important:
-
-- you must work in a branch, and one formula at a time.
-- you must push your branch to the upstream repo so that a pull request can be
-  created. Do not push directly to main.
-- you must use a pull request to submit your new or modified formula (only this
-  way will the GitHub actions be usable)
-- your pull request must only concern a single formula - use a separate branch
-  and separate pull request for each formula you add or modify.
-
-For the maintainers of the tap, the last stages are done in GitHub:
-
-1. Create a pull request from the pushed branch.
-2. Wait for the GitHub actions triggered by the pull request to complete.
-3. If they are all green, add the "pr-pull" label to the PR - this will
-   automatically merge and delete the branch, create the "bottles" and put them
-   in "Releases", add the links to the "bottles" in the formula and close the
-   PR.
-
-## Creating a tap
+## How the tap was initially created
 
 Although new Formulae can now be added to the existing
 [notunrandom/cardano tap][tap], the process of creating the tap is documented

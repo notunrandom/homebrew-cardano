@@ -12,7 +12,7 @@ You only need to have previously installed [Homebrew](https://brew.sh/), which s
 
 ## Installation
 
-To install the Cardano node (10.6.1) and CLI:
+To install the Cardano node (10.6.2) and CLI:
 
 ```bash
 brew install notunrandom/cardano/cardano-node
@@ -59,7 +59,7 @@ To actually try the node and CLI:
 
 ```bash
 mkdir -p preprod/{db,conf} && cd preprod
-curl --output-dir conf --remote-name-all --variable prefix=https://book.play.dev.cardano.org/environments-pre/preprod --expand-url "{{prefix}}/{config,tracer-config,db-sync-config,submit-api-config,topology,byron-genesis,shelley-genesis,alonzo-genesis,conway-genesis,peer-snapshot}.json" --expand-url "{{prefix}}/guardrails-script.plutus"
+curl --output-dir conf --remote-name-all --variable prefix=https://book.play.dev.cardano.org/environments/preprod --expand-url "{{prefix}}/{config,config-legacy,tracer-config,db-sync-config,submit-api-config,topology,peer-snapshot,byron-genesis,shelley-genesis,alonzo-genesis,conway-genesis}.json" --expand-url "{{prefix}}/guardrails-script.plutus"
 cardano-node run --topology conf/topology.json --config conf/config.json --database-path db --socket-path node.socket --port 3001
 
 ```
