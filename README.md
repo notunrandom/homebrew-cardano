@@ -18,7 +18,7 @@ To install the Cardano node (10.6.2) and CLI:
 brew install notunrandom/cardano/cardano-node
 ```
 
-To install these tools to analyse, manipulate or generate chain and ledger DB's (for a 10.6.1 node):
+To install these tools to analyse, manipulate or generate chain and ledger DB's (for a 10.6.2 node):
 
 * `db-analyser`
 * `snapshot-converter`
