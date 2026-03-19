@@ -4,8 +4,8 @@ class ConsensusDbTools < Formula
   url "https://github.com/IntersectMBO/ouroboros-consensus/archive/025ab689811dbf05583f41107f47347e597ce68b.tar.gz"
   version "10.6.2"
   sha256 "6607d35149ff2cff961ab639fa38de06a9de49994a0a8a17a7f42e5e6392cbba"
-  version_scheme 1
   license "Apache-2.0"
+  version_scheme 1
 
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build
