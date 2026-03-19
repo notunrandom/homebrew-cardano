@@ -7,6 +7,14 @@ class ConsensusDbTools < Formula
   license "Apache-2.0"
   version_scheme 1
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/consensus-db-tools-10.6.2"
+    sha256 cellar: :any,                 arm64_tahoe:   "4cdaa02086878fe9af5fdf8c401421562e64641aa3950c485d08954a41567cd4"
+    sha256 cellar: :any,                 arm64_sequoia: "47da057abf6686a1a52061e1645beb91d84a67dcc0770e08358ee5795977e532"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "4685511fc63bf133f9f8f950e696e30bb5148dfcb377c17203402463b1f38e3d"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "da598e7eec9382b0f886282bc7118e7a5cc71345a4f943e89ae989411d5fac79"
+  end
+
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build
   depends_on "gmp"
