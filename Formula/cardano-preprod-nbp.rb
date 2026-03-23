@@ -6,6 +6,12 @@ class CardanoPreprodNbp < Formula
   sha256 "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
   license "Apache-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-preprod-nbp-10.6.2"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "a1af0dd6b7c99b586571ee3d67b7991d85cd421185e7703ada8d780a1e92a39c"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "432ee74c33af8bcb32a03bcd92b269088426c4362cf067a46cfb4cf0a07cb322"
+  end
+
   depends_on "notunrandom/cardano/cardano-environments"
   depends_on "notunrandom/cardano/cardano-node"
 
