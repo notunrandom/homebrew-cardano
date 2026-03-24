@@ -6,10 +6,10 @@ class Kupo < Formula
   license "MPL-2.0"
 
   depends_on "ghcup" => :build
-  depends_on "notunrandom/cardano/blst" => :build
-  depends_on "notunrandom/cardano/libsodium-cardano" => :build
-  depends_on "notunrandom/cardano/secp256k1@0.3.2" => :build
   depends_on "pkg-config" => :build
+  depends_on "notunrandom/cardano/blst"
+  depends_on "notunrandom/cardano/libsodium-cardano"
+  depends_on "notunrandom/cardano/secp256k1@0.3.2"
 
   on_linux do
     depends_on "systemd"
@@ -23,8 +23,11 @@ class Kupo < Formula
     ENV.prepend_path "PKG_CONFIG_PATH", Formula["notunrandom/cardano/secp256k1@0.3.2"].opt_lib/"pkgconf"
     File.write("cabal.project.local", "with-compiler: ghc-9.6.7")
     system "cabal", "update"
-    system "cabal", "build", "kupo"
-    system "cabal", "v2-install", *std_cabal_v2_args, "kupo"
+    system "cabal", "install", "hpack"
+    system "hpack"
+    system "cabal", "update"
+    system "cabal", "build", "exe:kupo"
+    system "cabal", "v2-install", *std_cabal_v2_args, "exe:kupo"
   end
 
   test do
