@@ -23,8 +23,12 @@ commands, one usually refers to this tap without the `homebrew-` prefix.
 ## Pre-requisites
 
 - [Homebrew][brew] itself must be installed.
-- You must have a GitHub account, SSH access configured, and write permissions
-  on this repository.
+- You must have a GitHub account with SSH access configured
+- Either:
+  * you have write permissions on this repository (the following instructions
+    assume this is the case);
+  * or you must fork this repository (in which case you must adapt some of the
+    following instructions accordingly).
 
 ## Preparations
 
@@ -38,7 +42,7 @@ brew tap notunrandom/cardano git@github.com:notunrandom/homebrew-cardano.git
 Then change into the directory where the clone is located:
 
 ```
-cd $(brew --repo notunrandom/cardano)
+pushd $(brew --repo notunrandom/cardano)
 ```
 
 ## Modifying/updating existing formulae
@@ -47,50 +51,52 @@ It is imperative:
 - to submit changes to formulae as a PR
 - to only include changes to a single formula in any given PR
 
-Therefore, before making any changes, checkout a new branch named after the formula that will be modified, e.g.:
+Therefore, before making any changes, checkout a new branch, ideally with a
+name indication which formula is being modified and why, e.g.:
 
 ```bash
-git checkout -b cardano-node
+git checkout -b cardano-node-bump
 ```
 
 After making changes with your favourite editor (in this example, to
 ./Formula/cardano-node.rb), you can commit to the branch to save your progress.
 
 When you are ready to try it out, you must first test your formula locally
-using these three steps (continuing to use cardano-node as the example formula being modified):
+using these three steps (continuing to use cardano-node as the example formula
+being modified):
 
 ```
 HOMEBREW_NO_INSTALL_FROM_API=1 brew audit --new cardano-node
 ```
 
-This will analyse your formula code, it's like a linter. Fix all errors before proceeding.
+This will analyse your formula code, it's like a linter. Fix all errors before
+proceeding.
 
 ```
-HOMEBREW_NO_INSTALL_FROM_API=1 brew install --build-from-source --verbose --debug cardano-node
+HOMEBREW_NO_INSTALL_FROM_API=1 brew install \
+  --build-from-source --verbose --debug cardano-node
 ```
 
 This will attempt to use your Formula to build, from source, a locally
 installed version of the package. Again, fix all errors before proceeding. N.B.
 Once the installation succeeded at least once, if you want to make changes, you
-will need to replace `install` by `reinstall` in the above command.
+will need to replace `install` by `reinstall` in the above command. Note that
+if this step succeeds the software is actually installed in your local homebrew
+installation, so you can use it or test it further.
 
 ```
 HOMEBREW_NO_INSTALL_FROM_API=1 brew test cardano-node
 ```
 
-This will test the resulting installation (using the test you should have
-provided in the formula).
+This will test the resulting installation (using the test defined in the
+formula).
 
 Once you are satisfied that your formula is working, you can commit your new
 formula. Then push to the upstream branch:
 
 ```bash
-git push -u origin cardano-node
+git push -u origin cardano-node-bump
 ```
-
-(N.B. `cardano-node` above is the name of the branch on which the changes were
-made).
-
 
 Important:
 
@@ -113,9 +119,10 @@ For the maintainers of the tap, the last stages are done in GitHub:
 
 ## Adding formulae
 
-For new formulae, it is also necessary to create a branch (named after the new formula).
+For new formulae, it is also necessary to create a branch (e.g. named after the
+new formula).
 
-Then it is of course possible to copy one of the existing formulae.
+Then it is of course possible to copy and adapt one of the existing formulae.
 
 But `brew` also provides facilities, for example to create an initial version
 of your new formula.
@@ -144,7 +151,8 @@ Here is a first example, for Moog, which is a Haskell project built with Cabal,
 and has version tags:
 
 ```bash
-brew create --tap notunrandom/cardano --cabal https://github.com/cardano-foundation/moog/archive/refs/tags/v0.4.1.1.tar.gz
+brew create --tap notunrandom/cardano --cabal \
+  https://github.com/cardano-foundation/moog/archive/refs/tags/v0.4.1.1.tar.gz
 ```
 
 Here is a second example, for Amaru, which is a Rust project which does not yet
@@ -152,7 +160,8 @@ have version tags or branches, so we will use the HEAD of main and manually
 specify a low version:
 
 ```bash
-brew create --tap notunrandom/cardano --rust --set-version 0.1.0.0 https://github.com/pragma-org/amaru/archive/refs/heads/main.tar.gz
+brew create --tap notunrandom/cardano --rust --set-version 0.1.0.0 \
+  https://github.com/pragma-org/amaru/archive/refs/heads/main.tar.gz
 ```
 
 This will open an editor session of the generated Formula. You can keep the
