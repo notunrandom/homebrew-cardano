@@ -22,7 +22,9 @@ class CardanoNode < Formula
   depends_on "openssl"
 
   on_linux do
+    depends_on "ncurses"
     depends_on "systemd"
+    depends_on "zlib-ng-compat"
   end
 
   def install
