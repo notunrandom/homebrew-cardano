@@ -7,9 +7,11 @@ class CardanoNode < Formula
 
   bottle do
     root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node-10.6.2"
-    rebuild 1
-    sha256 cellar: :any, arm64_tahoe:   "b0fd8f2b3d5901cf0ecea7b3f0c3f9c8f67a680e6917a5cc12766f64cba9e97f"
-    sha256 cellar: :any, arm64_sequoia: "7bacedb42d2a18b02e620428a98f1bb0e297ce3bf70e7d3ed29d4075ffe71ffb"
+    rebuild 2
+    sha256 cellar: :any,                 arm64_tahoe:   "e18768a5a417c0e4a4ee7fee74ca17f6b370cebf46d7287a261ea0325e08a148"
+    sha256 cellar: :any,                 arm64_sequoia: "20c8843852d325a3a9d7c1dbce79bf79a478019783d107fd3fcc23b782e46b25"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "caa679020d0cde7d237e876d2ad260469c63b9dd578a76ce54bafa653efc3a7f"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f96d2bb66eb70ca86d479525f38740c98bda6b5a04ccd93ae5e372faa863ea0e"
   end
 
   depends_on "ghcup" => :build
