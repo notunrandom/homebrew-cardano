@@ -2,23 +2,95 @@
 
 This is a Homebrew tap to install the Cardano node, and some associated tools.
 
-[![Demo](https://img.youtube.com/vi/Yd2lQGLwqgI/0.jpg)](https://www.youtube.com/watch?v=Yd2lQGLwqgI)
-
 ## Prerequisites
 
-You only need to have previously installed [Homebrew](https://brew.sh/), which supports MacOS and Linux.
+You only need to have previously installed [Homebrew](https://brew.sh/), which
+supports MacOS and Linux.
 
-*Precompiled binaries are provided for MacOS Tahoe and Sequoia on Silicon (ARM), Ubuntu 22.04 on x86 and Ubuntu 24.04 on ARM. On some other platforms installation may require about 20 minutes if it entails compiling from source.*
+*Precompiled binaries are provided for MacOS Tahoe and Sequoia on Silicon
+(ARM), Ubuntu 22.04 on x86 and Ubuntu 24.04 on ARM. On some other platforms
+installation may require about 20 minutes if it entails compiling from source.*
 
 ## Installation
 
-To install the Cardano node (10.6.2) and CLI:
+### Cardano-node preprod service
+
+This formula installs an all-in-one non-block-producing cardano node (10.6.2)
+that runs as a system service. The Cardano environments and cardano CLI are
+also included.
+
+```bash
+brew install notunrandom/cardano/cardano-preprod-nbp
+```
+
+To start the service:
+
+```bash
+brew services start notunrandom/cardano/cardano-preprod-nbp
+```
+
+The Cardano-node is now running as a (user) daemon, and will automatically
+re-start every time you log back in.
+
+You can use the Cardano CLI to interact with it. First set an environment
+variable which points to the running node's socket:
+
+```bash
+export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/preprod/node.socket
+```
+
+Then use any CLI commands, e.g.:
+
+```bash
+cardano-cli query tip --testnet-magic 1
+```
+
+If needed you can look at its log file, e.g.:
+
+```bash
+tail -f $(brew --prefix)/var/cardano/preprod/log
+```
+
+###
+
+There is also a formula for
+[Kupo](https://github.com/CardanoSolutions/kupo):
+
+```bash
+brew install notunrandom/cardano/kupo
+```
+
+### Cardano-node
+
+If you need do not need the Cardano environments or system service, it is
+sufficient to install the cardano-node by itself using this formula:
 
 ```bash
 brew install notunrandom/cardano/cardano-node
 ```
 
-To install these tools to analyse, manipulate or generate chain and ledger DB's (for a 10.6.2 node):
+This only installs the cardano-node and cardano-cli software, without any
+environments (configurations), and without the service files.
+
+### Cardano environments
+
+The official "Cardano Environments" (configuration files) for the 10.6.2 node
+can be installed thus:
+
+```
+brew install notunrandom/cardano/cardano-environments
+```
+
+You fill find the files here:
+
+```bash
+ls -R $(brew --prefix)/etc/cardano
+```
+
+### Chain and Ledger DB tools
+
+To install these tools to analyse, manipulate or generate chain and ledger DB's
+(for a 10.6.2 node):
 
 * `db-analyser`
 * `snapshot-converter`
@@ -31,52 +103,21 @@ To install these tools to analyse, manipulate or generate chain and ledger DB's 
 brew install notunrandom/cardano/consensus-db-tools
 ```
 
-To install only the C libraries upon which the Haskell code of the node depends (e.g. because you are developing for Cardano):
+### Libraries
+
+To install only the C libraries upon which the Haskell code of the node depends
+(e.g. because you are developing for Cardano):
 
 ```bash
-brew tap notunrandom/cardano
-brew install blst libsodium-cardano secp256k1@0.3.2
-
-```
-
-## Trying out the node and CLI
-
-After installation you should see that the `cardano-node` and `cardano-cli` commands are available from Homebrew:
-
-```bash
-which cardano-node
-which cardano-cli
-
-```
-
-You can check the version with `--version` or display help with `--help`.
-
-To actually try the node and CLI:
-
-- first create and change into a testnet directory
-- download the configuration files for the preprod network
-- start the node
-
-```bash
-mkdir -p preprod/{db,conf} && cd preprod
-curl --output-dir conf --remote-name-all --variable prefix=https://book.play.dev.cardano.org/environments/preprod --expand-url "{{prefix}}/{config,config-legacy,tracer-config,db-sync-config,submit-api-config,topology,peer-snapshot,byron-genesis,shelley-genesis,alonzo-genesis,conway-genesis}.json" --expand-url "{{prefix}}/guardrails-script.plutus"
-cardano-node run --topology conf/topology.json --config conf/config.json --database-path db --socket-path node.socket --port 3001
-
-```
-
-You should see the output showing that the node is syncing.
-
-In a separate terminal, use the CLI to query the tip of your node (you may need to `brew install watch` before running the following command):
-
-```bash
-CARDANO_NODE_SOCKET_PATH=preprod/node.socket watch cardano-cli query tip --testnet-magic 1
+brew install notunrandom/cardano/{blst,libsodium-cardano,secp256k1@0.3.2}
 ```
 
 ## See also
 
-`cardano-node --help`, `cardano-cli --help` or check [Cardano Developer Portal](https://developers.cardano.org/docs/get-started/infrastructure/node/running-cardano/)
+`cardano-node --help`, `cardano-cli --help` or check [Cardano Developer
+Portal](https://developers.cardano.org)
 
 How to [contribute](./CONTRIBUTING.md) to this tap.
 
-`brew help`, `man brew` or check [Homebrew's documentation](https://docs.brew.sh).
-
+`brew help`, `man brew` or check [Homebrew's
+documentation](https://docs.brew.sh).
