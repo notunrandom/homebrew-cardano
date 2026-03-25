@@ -51,7 +51,7 @@ If needed you can look at its log file, e.g.:
 tail -f $(brew --prefix)/var/cardano/preprod/log
 ```
 
-###
+### Kupo
 
 There is also a formula for
 [Kupo](https://github.com/CardanoSolutions/kupo):
