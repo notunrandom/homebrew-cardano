@@ -77,7 +77,7 @@ environments (configurations), and without the service files.
 The official "Cardano Environments" (configuration files) for the 10.6.2 node
 can be installed thus:
 
-```
+```bash
 brew install notunrandom/cardano/cardano-environments
 ```
 
