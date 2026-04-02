@@ -5,23 +5,16 @@ class CardanoNode < Formula
   sha256 "a68e36f5d06ffb999c1e74135f3e97185cc17077b4e055bdaab20a7af56f144e"
   license "Apache-2.0"
 
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node-10.6.2"
-    rebuild 2
-    sha256 cellar: :any,                 arm64_tahoe:   "e18768a5a417c0e4a4ee7fee74ca17f6b370cebf46d7287a261ea0325e08a148"
-    sha256 cellar: :any,                 arm64_sequoia: "20c8843852d325a3a9d7c1dbce79bf79a478019783d107fd3fcc23b782e46b25"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "caa679020d0cde7d237e876d2ad260469c63b9dd578a76ce54bafa653efc3a7f"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "f96d2bb66eb70ca86d479525f38740c98bda6b5a04ccd93ae5e372faa863ea0e"
-  end
-
-  depends_on "ghcup" => :build
-  depends_on "pkg-config" => :build
+  depends_on "cabal-install" => :build
+  depends_on "ghc@9.6" => :build
   depends_on "gmp"
   depends_on "lmdb"
   depends_on "notunrandom/cardano/blst"
+  depends_on "notunrandom/cardano/cardano-environments"
   depends_on "notunrandom/cardano/libsodium-cardano"
   depends_on "notunrandom/cardano/secp256k1@0.3.2"
   depends_on "openssl"
+  depends_on "pkgconf"
 
   on_linux do
     depends_on "ncurses"
@@ -30,20 +23,41 @@ class CardanoNode < Formula
   end
 
   def install
-    ENV["GHCUP_INSTALL_BASE_PREFIX"] = buildpath
-    system "ghcup", "install", "ghc", "9.6.7"
-    system "ghcup", "install", "cabal", "3.12.1.0"
-    ENV.prepend_path "PATH", buildpath/".ghcup/bin"
     ENV.prepend_path "PKG_CONFIG_PATH", Formula["notunrandom/cardano/secp256k1@0.3.2"].opt_lib/"pkgconf"
-    File.write("cabal.project.local", "with-compiler: ghc-9.6.7")
     system "cabal", "update"
-    system "cabal", "build", "cardano-node"
-    system "cabal", "build", "cardano-cli"
-    system "cabal", "v2-install", *std_cabal_v2_args, "cardano-node"
-    system "cabal", "v2-install", *std_cabal_v2_args, "cardano-cli"
+    %w[cardano-node cardano-cli].each do |tool|
+      system "cabal", "build", tool
+      system "cabal", "v2-install", *std_cabal_v2_args, tool
+    end
+    %w[mainnet preprod preview].each do |network|
+      (var/"cardano"/network/"db").mkpath
+    end
+    symlink_etc = etc/"cardano"/"network"
+    ln_s etc/"cardano"/"mainnet", symlink_etc unless File.exist?(symlink_etc)
+    symlink_var = var/"cardano"/"network"
+    ln_s var/"cardano"/"mainnet", symlink_var unless File.exist?(symlink_var)
+  end
+
+  service do
+    run [
+      HOMEBREW_PREFIX/"opt"/"cardano-node"/"bin"/"cardano-node",
+      "run",
+      "--config", etc/"cardano"/"network"/"config.json",
+      "--topology", etc/"cardano"/"network"/"topology.json",
+      "--database-path", var/"cardano"/"network"/"db",
+      "--socket-path", var/"cardano"/"network"/"node.socket",
+      "--port", "3001"
+    ]
+    keep_alive true
+    log_path var/"cardano"/"network"/"log"
+    error_log_path var/"cardano"/"network"/"log"
   end
 
   test do
     system bin/"cardano-node", "--version"
+    assert_path_exists var/"cardano"/"preprod"/"db"
+    assert_path_exists var/"cardano"/"network"
+    assert_path_exists etc/"cardano"/"network"
+    system "brew", "services", "info", "notunrandom/cardano/cardano-node"
   end
 end
