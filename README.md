@@ -13,27 +13,54 @@ installation may require about 20 minutes if it entails compiling from source.*
 
 ## Installation
 
-### Cardano-node preprod service
+### Cardano-node
 
-This formula installs an all-in-one non-block-producing cardano node (10.6.2)
-that runs as a system service. The Cardano environments and cardano CLI are
-also included.
+This formula installs:
+
+- the Cardano Haskell node (10.6.2)
+- the Cardano CLI
+- the Cardano environments (configuration files)
+- a launchd/systemd service to run cardano-node as a daemon
+
+To install:
 
 ```bash
-brew install notunrandom/cardano/cardano-preprod-nbp
+brew install notunrandom/cardano/cardano-node
 ```
 
 To start the service:
 
 ```bash
-brew services start notunrandom/cardano/cardano-preprod-nbp
+brew services start notunrandom/cardano/cardano-node
 ```
 
-The Cardano-node is now running as a (user) daemon, and will automatically
-re-start every time you log back in.
+With these two commands a mainnet, non-block-producing node is now running
+as a (user) daemon, and will automatically re-start every time you log back
+in.
 
-You can use the Cardano CLI to interact with it. First set an environment
-variable which points to the running node's socket:
+To run a preprod node rather than mainnet, stop the mainnet service if
+it has been started:
+
+```bash
+brew services stop notunrandom/cardano/cardano-node
+```
+
+Then modify two symbolic links:
+
+```bash
+cd $(brew --prefix)/etc/cardano
+rm network
+ln -s preprod network
+cd $(brew --prefix)/var/cardano
+rm network
+ln -s preprod network
+
+```
+
+Then start the service as above.
+
+To interact with the preprod node using the Cardano CLI, first set an
+environment variable which points to the running node's socket:
 
 ```bash
 export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/preprod/node.socket
@@ -45,11 +72,14 @@ Then use any CLI commands, e.g.:
 cardano-cli query tip --testnet-magic 1
 ```
 
-If needed you can look at its log file, e.g.:
+To look at its log file:
 
 ```bash
 tail -f $(brew --prefix)/var/cardano/preprod/log
 ```
+
+For more control, use the `cardano-node` command directly without starting
+the service.
 
 ### Kupo
 
@@ -60,22 +90,11 @@ There is also a formula for
 brew install notunrandom/cardano/kupo
 ```
 
-### Cardano-node
-
-If you need do not need the Cardano environments or system service, it is
-sufficient to install the cardano-node by itself using this formula:
-
-```bash
-brew install notunrandom/cardano/cardano-node
-```
-
-This only installs the cardano-node and cardano-cli software, without any
-environments (configurations), and without the service files.
-
 ### Cardano environments
 
 The official "Cardano Environments" (configuration files) for the 10.6.2 node
-can be installed thus:
+can be installed separately (N.B.) they are included with the cardano-node
+formula):
 
 ```bash
 brew install notunrandom/cardano/cardano-environments
