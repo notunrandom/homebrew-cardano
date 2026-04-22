@@ -5,6 +5,14 @@ class CardanoEnvironmentsAT1062 < Formula
   sha256 "8f4732d34471e4c0b88f5e69becbaa767534e1bca7493f901bc2d7fe4ece5a0e"
   license "Apache-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-environments@10.6.2-10.6.2"
+    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "2f335dbd69a9fe74087077cec1c8b6c15ba90122c1dd76d67c25146b66447334"
+    sha256 cellar: :any_skip_relocation, arm64_sequoia: "d7faf6350a6c0259a08e8003e3355c76780296c811c4e88288d143ab7ab01a95"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "f827d4ced17b0659f8d627d6d402d06fc45c3967bac607635712200900cbab64"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "0e5ca1cdd1198b55469c23cb03089eee690b7fa94b01f00292d77eeb38439e25"
+  end
+
   def install
     (prefix/"placeholder").write("")
     (etc/"cardano"/"10.6.2"/"mainnet").mkpath
