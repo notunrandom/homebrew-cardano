@@ -5,6 +5,14 @@ class CardanoNodeAT1062 < Formula
   sha256 "a68e36f5d06ffb999c1e74135f3e97185cc17077b4e055bdaab20a7af56f144e"
   license "Apache-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node@10.6.2-10.6.2"
+    sha256 cellar: :any,                 arm64_tahoe:   "dc675f65feaeedde40d2a2cdc999305f0151017e3261bf2ec70ac96739872ac3"
+    sha256 cellar: :any,                 arm64_sequoia: "023bb7b7341123931064e5caefcec489dad70a06701d38f3339d7da6bc706646"
+    sha256 cellar: :any_skip_relocation, arm64_linux:   "545a224bf681e7586c5b1151a8834cbd5e7c39f612b5b3579ab3aecab8f6c701"
+    sha256 cellar: :any_skip_relocation, x86_64_linux:  "68031492ac183393e7478620a23b3d0ac116ee658328cdc8e9466b4b39d94f1b"
+  end
+
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "gmp"
