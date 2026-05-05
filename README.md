@@ -17,7 +17,7 @@ installation may require about 20 minutes if it entails compiling from source.*
 
 This formula installs:
 
-- the Cardano Haskell node (10.6.2)
+- the Cardano Haskell node (10.7.1)
 - the Cardano CLI
 - the Cardano environments (configuration files)
 - a launchd/systemd service to run cardano-node as a daemon
@@ -34,36 +34,15 @@ To start the service:
 brew services start notunrandom/cardano/cardano-node
 ```
 
-With these two commands a mainnet, non-block-producing node is now running
+With these two commands a preprod, non-block-producing node is now running
 as a (user) daemon, and will automatically re-start every time you log back
 in.
-
-To run a preprod node rather than mainnet, stop the mainnet service if
-it has been started:
-
-```bash
-brew services stop notunrandom/cardano/cardano-node
-```
-
-Then modify two symbolic links:
-
-```bash
-cd $(brew --prefix)/etc/cardano
-rm network
-ln -s preprod network
-cd $(brew --prefix)/var/cardano
-rm network
-ln -s preprod network
-
-```
-
-Then start the service as above.
 
 To interact with the preprod node using the Cardano CLI, first set an
 environment variable which points to the running node's socket:
 
 ```bash
-export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/preprod/node.socket
+export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/10.7.1/preprod/node.socket
 ```
 
 Then use any CLI commands, e.g.:
@@ -75,10 +54,61 @@ cardano-cli query tip --testnet-magic 1
 To look at its log file:
 
 ```bash
-tail -f $(brew --prefix)/var/cardano/preprod/log
+tail -f $(brew --prefix)/var/cardano/log
 ```
 
-For more control, use the `cardano-node` command directly without starting
+The environments (configurations) are the unmodified, official ones from
+<https://book.play.dev.cardano.org/environments.html>. They are located
+here:
+
+```
+ls -R $(brew --prefix)/etc/cardano
+```
+
+The log file and database files are located here:
+
+```bash
+ls -R $(brew --prefix)/var/cardano
+```
+
+To run e.g. a mainnet node rather than preprod, stop the mainnet service if
+it has been started:
+
+```bash
+brew services stop notunrandom/cardano/cardano-node
+```
+
+Then create a configuration file:
+
+```bash
+echo "NETWORK=mainnet" >> $(brew --prefix)/etc/cardano/10.7.1/cardano-node-service.conf
+```
+
+Then start the service as above.
+
+Similarly, to modify the port (default is 3001):
+
+```bash
+echo "PORT=3002" >> $(brew --prefix)/var/cardano/10.7.1/cardano-node-service.conf
+```
+
+For more advanced modifications, something like this should work:
+
+```bash
+pushd $(brew --prefix)/etc/cardano/10.7.1
+echo "NETWORK=custom" > cardano-node-service.conf
+cp -r mainnet custom
+```
+
+then modify the contents of the `custom` directory.
+
+To understand how this works look at the service's start script:
+
+```bash
+cat $(brew --prefix)/opt/cardano-node/libexec/cardano-node-service.sh
+```
+
+For evem more control, use the `cardano-node` command directly without starting
 the service.
 
 ### Kupo
@@ -92,7 +122,7 @@ brew install notunrandom/cardano/kupo
 
 ### Cardano environments
 
-The official "Cardano Environments" (configuration files) for the 10.6.2 node
+The official "Cardano Environments" (configuration files) for the 10.7.1 node
 can be installed separately (N.B.) they are included with the cardano-node
 formula):
 
@@ -129,6 +159,14 @@ To install only the C libraries upon which the Haskell code of the node depends
 
 ```bash
 brew install notunrandom/cardano/{blst,libsodium-cardano,secp256k1@0.3.2}
+```
+
+### Older versions
+
+The 10.6.2 node (with corresponding environments) can be installed this way:
+
+```bash
+brew install notunrandom/cardano/cardano-node@10.6.2
 ```
 
 ## See also
