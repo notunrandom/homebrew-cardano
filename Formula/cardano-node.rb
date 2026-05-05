@@ -19,6 +19,7 @@ class CardanoNode < Formula
   depends_on "snappy"
 
   on_linux do
+    depends_on "liburing"
     depends_on "ncurses"
     depends_on "systemd"
     depends_on "zlib-ng-compat"
