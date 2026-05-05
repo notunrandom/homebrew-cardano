@@ -108,7 +108,7 @@ To understand how this works look at the service's start script:
 cat $(brew --prefix)/opt/cardano-node/libexec/cardano-node-service.sh
 ```
 
-For evem more control, use the `cardano-node` command directly without starting
+For even more control, use the `cardano-node` command directly without starting
 the service.
 
 ### Kupo
