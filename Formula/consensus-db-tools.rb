@@ -1,19 +1,10 @@
 class ConsensusDbTools < Formula
   desc "Tools to inspect and manipulate the Cardano node's chainDB and ledger databases"
   homepage "https://github.com/IntersectMBO/ouroboros-consensus"
-  url "https://github.com/IntersectMBO/ouroboros-consensus/archive/025ab689811dbf05583f41107f47347e597ce68b.tar.gz"
-  version "10.6.2"
-  sha256 "6607d35149ff2cff961ab639fa38de06a9de49994a0a8a17a7f42e5e6392cbba"
+  url "https://github.com/IntersectMBO/ouroboros-consensus/archive/refs/tags/release-ouroboros-consensus-3.0.1.0.tar.gz"
+  version "10.7.1"
+  sha256 "7cb155508134f39684ba3cd330d9803b9a290f156ff6db0c399b99457b215874"
   license "Apache-2.0"
-  version_scheme 1
-
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/consensus-db-tools-10.6.2"
-    sha256 cellar: :any,                 arm64_tahoe:   "4cdaa02086878fe9af5fdf8c401421562e64641aa3950c485d08954a41567cd4"
-    sha256 cellar: :any,                 arm64_sequoia: "47da057abf6686a1a52061e1645beb91d84a67dcc0770e08358ee5795977e532"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "4685511fc63bf133f9f8f950e696e30bb5148dfcb377c17203402463b1f38e3d"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "da598e7eec9382b0f886282bc7118e7a5cc71345a4f943e89ae989411d5fac79"
-  end
 
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build
