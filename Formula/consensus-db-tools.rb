@@ -5,6 +5,7 @@ class ConsensusDbTools < Formula
   version "10.7.1"
   sha256 "7cb155508134f39684ba3cd330d9803b9a290f156ff6db0c399b99457b215874"
   license "Apache-2.0"
+  version_scheme 1
 
   depends_on "ghcup" => :build
   depends_on "pkg-config" => :build
