@@ -15,6 +15,10 @@ class ConsensusDbTools < Formula
   depends_on "notunrandom/cardano/secp256k1@0.3.2"
   depends_on "zlib"
 
+  on_linux do
+    depends_on "liburing"
+  end
+
   def install
     ENV["GHCUP_INSTALL_BASE_PREFIX"] = buildpath
     system "ghcup", "install", "ghc", "9.6.7"
