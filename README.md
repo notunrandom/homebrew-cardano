@@ -71,7 +71,7 @@ The log file and database files are located here:
 ls -R $(brew --prefix)/var/cardano
 ```
 
-To run e.g. a mainnet node rather than preprod, stop the mainnet service if
+To run e.g. a mainnet node rather than preprod, stop the service if
 it has been started:
 
 ```bash
@@ -120,11 +120,14 @@ There is also a formula for
 brew install notunrandom/cardano/kupo
 ```
 
+This provides both the `kupo` binary (v2.11) and `man kupo`.
+
 ### Cardano environments
 
 The official "Cardano Environments" (configuration files) for the 10.7.1 node
-can be installed separately (N.B.) they are included with the cardano-node
-formula):
+can be installed separately (N.B. they are already included with the cardano-node
+formula, so installing them separately could be useful for example if you installed
+`cardano-node` manually from its [GitHub repo][cnode]):
 
 ```bash
 brew install notunrandom/cardano/cardano-environments
@@ -139,7 +142,7 @@ ls -R $(brew --prefix)/etc/cardano
 ### Chain and Ledger DB tools
 
 To install these tools to analyse, manipulate or generate chain and ledger DB's
-(for a 10.6.2 node):
+(for a 10.7.1 node):
 
 * `db-analyser`
 * `snapshot-converter`
@@ -169,6 +172,9 @@ The 10.6.2 node (with corresponding environments) can be installed this way:
 brew install notunrandom/cardano/cardano-node@10.6.2
 ```
 
+Similarly, there are 10.6.2 versions of the cardano-environments and
+consensus-db-tools formulae.
+
 ## See also
 
 `cardano-node --help`, `cardano-cli --help` or check [Cardano Developer
@@ -178,3 +184,5 @@ How to [contribute](./CONTRIBUTING.md) to this tap.
 
 `brew help`, `man brew` or check [Homebrew's
 documentation](https://docs.brew.sh).
+
+[cnode]: https://github.com/IntersectMBO/cardano-node
