@@ -17,7 +17,7 @@ installation may require about 20 minutes if it entails compiling from source.*
 
 This formula installs:
 
-- the Cardano Haskell node (10.7.1)
+- the Cardano Haskell node (11.0.1)
 - the Cardano CLI
 - the Cardano environments (configuration files)
 - a launchd/systemd service to run cardano-node as a daemon
@@ -42,7 +42,7 @@ To interact with the preprod node using the Cardano CLI, first set an
 environment variable which points to the running node's socket:
 
 ```bash
-export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/10.7.1/preprod/node.socket
+export CARDANO_NODE_SOCKET_PATH=$(brew --prefix)/var/cardano/11.0.1/preprod/node.socket
 ```
 
 Then use any CLI commands, e.g.:
@@ -81,7 +81,7 @@ brew services stop notunrandom/cardano/cardano-node
 Then create a configuration file:
 
 ```bash
-echo "NETWORK=mainnet" >> $(brew --prefix)/etc/cardano/10.7.1/cardano-node-service.conf
+echo "NETWORK=mainnet" >> $(brew --prefix)/etc/cardano/11.0.1/cardano-node-service.conf
 ```
 
 Then start the service as above.
@@ -89,13 +89,13 @@ Then start the service as above.
 Similarly, to modify the port (default is 3001):
 
 ```bash
-echo "PORT=3002" >> $(brew --prefix)/var/cardano/10.7.1/cardano-node-service.conf
+echo "PORT=3002" >> $(brew --prefix)/var/cardano/11.0.1/cardano-node-service.conf
 ```
 
 For more advanced modifications, something like this should work:
 
 ```bash
-pushd $(brew --prefix)/etc/cardano/10.7.1
+pushd $(brew --prefix)/etc/cardano/11.0.1
 echo "NETWORK=custom" > cardano-node-service.conf
 cp -r mainnet custom
 ```
@@ -124,7 +124,7 @@ This provides both the `kupo` binary (v2.11) and `man kupo`.
 
 ### Cardano environments
 
-The official "Cardano Environments" (configuration files) for the 10.7.1 node
+The official "Cardano Environments" (configuration files) for the 11.0.1 node
 can be installed separately (N.B. they are already included with the cardano-node
 formula, so installing them separately could be useful for example if you installed
 `cardano-node` manually from its [GitHub repo][cnode]):
@@ -142,7 +142,7 @@ ls -R $(brew --prefix)/etc/cardano
 ### Chain and Ledger DB tools
 
 To install these tools to analyse, manipulate or generate chain and ledger DB's
-(for a 10.7.1 node):
+(for a 11.0.1 node):
 
 * `db-analyser`
 * `snapshot-converter`
@@ -166,13 +166,19 @@ brew install notunrandom/cardano/{blst,libsodium-cardano,secp256k1@0.3.2}
 
 ### Older versions
 
+The 10.7.1 node (with corresponding environments) can be installed this way:
+
+```bash
+brew install notunrandom/cardano/cardano-node@10.7.1
+```
+
 The 10.6.2 node (with corresponding environments) can be installed this way:
 
 ```bash
 brew install notunrandom/cardano/cardano-node@10.6.2
 ```
 
-Similarly, there are 10.6.2 versions of the cardano-environments and
+Similarly, there are 10.7.1 and 10.6.2 versions of the cardano-environments and
 consensus-db-tools formulae.
 
 ## See also
