@@ -1,25 +1,16 @@
 class CardanoNode < Formula
   desc "Core component needed to participate in a Cardano decentralised blockchain"
   homepage "https://github.com/IntersectMBO/cardano-node"
-  url "https://github.com/IntersectMBO/cardano-node/archive/refs/tags/10.7.1.tar.gz"
-  sha256 "57749818645c0b2efe7e5ac1a97078452dc2ebd7620d75c30accf8737f247ce3"
+  url "https://github.com/IntersectMBO/cardano-node/archive/refs/tags/11.0.1.tar.gz"
+  sha256 "42f8e92ff0c69ac7dbc5f800a72276504e49edc0fe354ff79ae64d6e87c68aa2"
   license "Apache-2.0"
-
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node-10.7.1"
-    rebuild 1
-    sha256 cellar: :any,                 arm64_tahoe:   "07387b3b5cc0cbb74f04f906e5175a37e401b215ee48a39229764a5e7f32a9db"
-    sha256 cellar: :any,                 arm64_sequoia: "e44feedc48041d677e7e4ed7dc6271eaf591a8d8784fcb445e51ef3bb5637e6a"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "f25a2c295816b29b85b2356fba8354573452e177ac9751ef40eb50bf487da3c4"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "5d90f8a82fd088a29fc72adea517a0e200f9087bf281d4f50cf36a6f34267f11"
-  end
 
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "gmp"
   depends_on "lmdb"
   depends_on "notunrandom/cardano/blst"
-  depends_on "notunrandom/cardano/cardano-environments@10.7.1"
+  depends_on "notunrandom/cardano/cardano-environments"
   depends_on "notunrandom/cardano/libsodium-cardano"
   depends_on "notunrandom/cardano/secp256k1@0.3.2"
   depends_on "openssl"
@@ -86,5 +77,40 @@ class CardanoNode < Formula
     assert_path_exists etc/"cardano/#{version}/preprod/config.json"
     assert_path_exists etc/"cardano/#{version}/mainnet/config.json"
     system "brew", "services", "info", "notunrandom/cardano/cardano-node"
+    socket_path = testpath/"node.socket"
+    db_path = testpath/"db"
+    db_path.mkpath
+    log_file = testpath/"node.log"
+    ENV["CARDANO_NODE_SOCKET_PATH"] = socket_path
+    puts "Starting a preprod cardano-node and letting it sync 20 seconds..."
+    pid = fork do
+      $stdout.reopen(log_file, "w")
+      $stderr.reopen($stdout)
+      $stdout.sync = true
+      exec bin/"cardano-node", "run",
+        "--topology", etc/"cardano/#{version}/preprod/topology.json",
+         "--database-path", db_path,
+         "--socket-path", socket_path,
+         "--config", etc/"cardano/#{version}/preprod/config.json",
+         "--port", "3001"
+    end
+    Process.detach(pid)
+    10.times do
+      break if socket_path.socket?
+
+      sleep 1
+    end
+
+    raise "node.socket was not created" unless socket_path.socket?
+
+    sleep 20
+    output = shell_output("#{bin}/cardano-cli query tip --testnet-magic 1 | jq '.syncProgress | tonumber'")
+    puts "syncProgress: #{output.strip}"
+    assert_match(/^\d+(\.\d+)?$/, output.strip, "syncProgress is not a valid number")
+    assert_operator(output.strip.to_f, :>, 0, "syncProgress is not greater than 0")
+    Process.kill("TERM", pid)
+  rescue
+    Process.kill("KILL", pid) if pid
+    raise
   end
 end
