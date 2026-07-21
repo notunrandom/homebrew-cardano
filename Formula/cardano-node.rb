@@ -5,14 +5,6 @@ class CardanoNode < Formula
   sha256 "42f8e92ff0c69ac7dbc5f800a72276504e49edc0fe354ff79ae64d6e87c68aa2"
   license "Apache-2.0"
 
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-node-11.0.1"
-    sha256 cellar: :any,                 arm64_tahoe:   "f75bc9087541027e3f4b7ba3138d3ecc0d3b480989ab8de60a9a19ded51853ec"
-    sha256 cellar: :any,                 arm64_sequoia: "d6a4a7c5d6278f60eeed55365adadb3c8648ae30b08ebd578395f36b3d5b7b43"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "df7929de57471d5c4a26a5268599e8e05fe166a033a88f4c860dc8a0ed8397c5"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "b18246cdb172baeb05cb70765e996c42640f2a8f003ee48774acea9713330be8"
-  end
-
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "gmp"
@@ -34,7 +26,7 @@ class CardanoNode < Formula
   end
 
   def install
-    ENV.prepend_path "PKG_CONFIG_PATH", Formula["notunrandom/cardano/secp256k1@0.3.2"].opt_lib/"pkgconf"
+    ENV.prepend_path "PKG_CONFIG_PATH", formula_opt_lib("notunrandom/cardano/secp256k1@0.3.2")/"pkgconf"
     system "cabal", "update"
     %w[cardano-node cardano-cli].each do |tool|
       system "cabal", "build", tool
