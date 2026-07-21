@@ -28,7 +28,7 @@ class ConsensusDbToolsAT1062 < Formula
     system "ghcup", "install", "ghc", "9.6.7"
     system "ghcup", "install", "cabal", "3.12.1.0"
     ENV.prepend_path "PATH", buildpath/".ghcup/bin"
-    ENV.prepend_path "PKG_CONFIG_PATH", Formula["notunrandom/cardano/secp256k1@0.3.2"].opt_lib/"pkgconf"
+    ENV.prepend_path "PKG_CONFIG_PATH", formula_opt_lib("notunrandom/cardano/secp256k1@0.3.2")/"pkgconf"
     File.write("cabal.project.local", "with-compiler: ghc-9.6.7")
     system "cabal", "update"
     system "cabal", "build", "exe:db-analyser"

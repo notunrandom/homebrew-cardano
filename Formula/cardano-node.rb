@@ -34,7 +34,7 @@ class CardanoNode < Formula
   end
 
   def install
-    ENV.prepend_path "PKG_CONFIG_PATH", Formula["notunrandom/cardano/secp256k1@0.3.2"].opt_lib/"pkgconf"
+    ENV.prepend_path "PKG_CONFIG_PATH", formula_opt_lib("notunrandom/cardano/secp256k1@0.3.2")/"pkgconf"
     system "cabal", "update"
     %w[cardano-node cardano-cli].each do |tool|
       system "cabal", "build", tool
