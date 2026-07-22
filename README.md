@@ -8,7 +8,7 @@ You only need to have previously installed [Homebrew](https://brew.sh/), which
 supports MacOS and Linux.
 
 *Precompiled binaries are provided for MacOS Tahoe and Sequoia on Silicon
-(ARM), Ubuntu 22.04 on x86 and Ubuntu 24.04 on ARM. On some other platforms
+(ARM), and Ubuntu (x86 and ARM). On some other platforms
 installation may require about 20 minutes if it entails compiling from source.*
 
 ## Installation
@@ -120,7 +120,7 @@ There is also a formula for
 brew install notunrandom/cardano/kupo
 ```
 
-This provides both the `kupo` binary (v2.11) and `man kupo`.
+This provides both the `kupo` binary (v2.12.0) and `man kupo`.
 
 ### Cardano environments
 
@@ -179,7 +179,7 @@ brew install notunrandom/cardano/cardano-node@10.6.2
 ```
 
 Similarly, there are 10.7.1 and 10.6.2 versions of the cardano-environments and
-consensus-db-tools formulae.
+consensus-db-tools formulae, and a 2.11 version of Kupo.
 
 ## See also
 
