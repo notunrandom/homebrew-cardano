@@ -5,6 +5,14 @@ class KupoAT211 < Formula
   sha256 "1b823b35c31b46ffce2794eea570dd6ace826b171a839d6d57d72780ec646a78"
   license "MPL-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/kupo@2.11-2.11"
+    sha256 cellar: :any, arm64_tahoe:   "07b4d920b49707a1af00d690b486b273334c5784d8402c14cccbd3a08f159917"
+    sha256 cellar: :any, arm64_sequoia: "c21750b49547f48972e371b22279a1ec8f45fee7b5893206d2f10c9c95be7a1f"
+    sha256 cellar: :any, arm64_linux:   "fca1fa33ed5654d38b90ea232204c9b6ad5567f094da5ff5c78e5944ce18f4f9"
+    sha256 cellar: :any, x86_64_linux:  "dad50759d0851a4613c9b76585dbbd0effbb59af9de2e6c94a8adc5c47ab5208"
+  end
+
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "hpack" => :build
