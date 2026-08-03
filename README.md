@@ -22,9 +22,10 @@ This formula installs:
 - the Cardano environments (configuration files)
 - a launchd/systemd service to run cardano-node as a daemon
 
-To install:
+To install
 
 ```bash
+brew trust notunrandom/cardano
 brew install notunrandom/cardano/cardano-node
 ```
 
