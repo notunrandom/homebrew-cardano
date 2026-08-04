@@ -13,6 +13,10 @@ class Ogmios < Formula
   depends_on "notunrandom/cardano/secp256k1@0.3.2"
   depends_on "pkgconf"
 
+  on_linux do
+    depends_on "zlib-ng-compat"
+  end
+
   def install
     src = buildpath/"ogmios"
     system "git",
