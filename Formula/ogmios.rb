@@ -5,6 +5,14 @@ class Ogmios < Formula
   version "7.0.0"
   license "MPL-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/ogmios-7.0.0"
+    rebuild 1
+    sha256 cellar: :any, arm64_tahoe:  "8d59165694b40e090e26a5eff6365d0de288bd2c9349a61ebe6b45c26451db52"
+    sha256 cellar: :any, arm64_linux:  "a4e089abc8674572b3886f177fe98b06ccf882bea6ec79e3f02d2f5e40e756e5"
+    sha256 cellar: :any, x86_64_linux: "3effb4b134e7a3cc1c03b361b88fbacc58ed1174f2cdeaed20c8b60de830f1cf"
+  end
+
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "notunrandom/cardano/blst"
