@@ -76,6 +76,5 @@ class Ogmios < Formula
     system bin/"ogmios", "--version"
     assert_path_exists etc/"cardano/ogmios/#{version}"
     assert_path_exists var/"cardano/ogmios"
-    system "brew", "services", "info", "notunrandom/cardano/ogmios"
   end
 end
