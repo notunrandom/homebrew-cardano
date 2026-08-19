@@ -5,6 +5,12 @@ class Ogmios < Formula
   version "7.0.0"
   license "MPL-2.0"
 
+  bottle do
+    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/ogmios-7.0.0"
+    rebuild 1
+    sha256 cellar: :any, arm64_tahoe: "e4653cc2230cd2d313a8d845ba67f2029b9fb8e554338f0d06d0e44a5970fe5e"
+  end
+
   depends_on "cabal-install" => :build
   depends_on "ghc@9.6" => :build
   depends_on "jq" => :test
