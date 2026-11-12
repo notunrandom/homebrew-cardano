@@ -1,17 +1,9 @@
 class CardanoEnvironments < Formula
   desc "Versioned copy of configuration files for Cardano networks"
   homepage "https://github.com/notunrandom/cardano-environments"
-  url "https://github.com/notunrandom/cardano-environments/archive/refs/tags/11.0.1.tar.gz"
-  sha256 "e920d38a6f4e2b23e591040530e515e770075f3cb4ce2e51e7eafcb1082bf7ae"
+  url "https://github.com/notunrandom/cardano-environments/archive/refs/tags/11.1.3.tar.gz"
+  sha256 "021cb30c1d1cfeb9e50293c0af6a7108a0bc125ffa7db061cc76cd732993922d"
   license "Apache-2.0"
-
-  bottle do
-    root_url "https://github.com/notunrandom/homebrew-cardano/releases/download/cardano-environments-11.0.1"
-    sha256 cellar: :any_skip_relocation, arm64_tahoe:   "ddaecf8d60ad8badb4bb9685e649268587828cac4d72795d80b4a63d73dc5161"
-    sha256 cellar: :any_skip_relocation, arm64_sequoia: "4b7442951ec1e81edec9a9040d4a318ff95aed7cfbff99b89d729b37d75884e8"
-    sha256 cellar: :any_skip_relocation, arm64_linux:   "6344fe371666ea5bdef98931d54c744f912737776fcb2299af2f945e3ff22bfd"
-    sha256 cellar: :any_skip_relocation, x86_64_linux:  "327d076e43d57721619541ec59a562c52b45a84169497fb5966e6d19aeb8f38f"
-  end
 
   def install
     (prefix/"placeholder").write("")
