@@ -37,6 +37,7 @@ installation:
 
 ```bash
 brew tap notunrandom/cardano git@github.com:notunrandom/homebrew-cardano.git
+brew trust notunrandom/cardano
 ```
 
 Then change into the directory where the clone is located:
