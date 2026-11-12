@@ -1,11 +1,9 @@
 class Ogmios < Formula
   desc "Lightweight JSON/RPC bridge interface for cardano-node"
   homepage "https://github.com/cardanosolutions/ogmios"
-  url "https://github.com/CardanoSolutions/kupo/archive/refs/tags/v2.12.0.tar.gz"
   url "https://github.com/cardanosolutions/ogmios.git",
     tag:      "v7.0.0",
     revision: "b3a830a1bf2fbfd0ce1fd0fb238aee2d73d7cdbe"
-  version "7.0.0"
   license "MPL-2.0"
 
   bottle do
